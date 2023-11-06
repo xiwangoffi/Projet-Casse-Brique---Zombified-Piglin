@@ -1,12 +1,18 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
-//#include "App.h"
+#include "GameObject.hpp"
+//#include "App.hpp"
+    
+using namespace sf;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Default);
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(240);
+
+    GameObject test(50, 50, 50);
+    test.setFillColor(Color(255, 100, 0, 255));
 
     while (window.isOpen())
     {
@@ -17,8 +23,11 @@ int main()
 				window.close();
             }
         }
-
         window.clear();
+
+        Shape* shape = test.GetShape();
+        window.draw(*test.GetShape());
+
         window.display();
     }
 
