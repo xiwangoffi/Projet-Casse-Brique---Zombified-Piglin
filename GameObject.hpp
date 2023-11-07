@@ -28,5 +28,9 @@ public:
 	void setOutlineThickness(float _thickness);
 	void setOutlineColor(sf::Color _outlineColor);
 	void setRotation(float _angle);
-	bool isColliding(GameObject entity);
+	void addRotation(float _angle, float speed, float dT);
+	sf::Vector2f getPosition() { return pShape->getPosition(); }
+	float getRotation() { return pShape->getRotation(); }
+	void addPosition(int x, int y, float speed, float dT);
+	bool isColliding(const GameObject* entity);
 };

@@ -13,9 +13,13 @@ int main()
     window.setFramerateLimit(240);
 
     GameObject test(50, 50, 1000, 100);
-    GameObject temp(80, 500, 100, 100);
+    GameObject temp(150, 500, 100, 100);
     test.setFillColor(Color(255, 100, 0, 255));
 
+    Vector2f pos(80, 500);
+    float dT = 0.f;
+    
+    Clock clock;
     while (window.isOpen())
     {
         sf::Event event;
@@ -28,12 +32,17 @@ int main()
         }
         window.clear();
 
+        temp.addPosition(0, -1, 50.f, dT);
+        temp.addRotation(5, 20.f, dT);
+
         window.draw(*test.GetShape());
         window.draw(*temp.GetShape());
 
-        temp.isColliding(test) ? cout << "colliding" << endl : cout << "no collision" << endl;
+        test.isColliding(&temp) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
         window.display();
+
+        dT = clock.restart().asSeconds();
     }
 
     return 0;
