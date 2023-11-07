@@ -4,6 +4,7 @@
 //#include "App.hpp"
     
 using namespace sf;
+using namespace std;
 
 int main()
 {
@@ -11,7 +12,8 @@ int main()
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(240);
 
-    GameObject test(50, 50, 50);
+    GameObject test(50, 50, 1000, 100);
+    GameObject temp(80, 500, 100, 100);
     test.setFillColor(Color(255, 100, 0, 255));
 
     while (window.isOpen())
@@ -19,14 +21,17 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.key.code == sf::Keyboard::Escape) {
-				window.close();
-            }
+           /*if (event.key.code == sf::Keyboard::Escape)
+				window.close();*/
+            if (event.type == sf::Event::Closed)
+                window.close();
         }
         window.clear();
 
-        Shape* shape = test.GetShape();
         window.draw(*test.GetShape());
+        window.draw(*temp.GetShape());
+
+        temp.isColliding(test) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
         window.display();
     }

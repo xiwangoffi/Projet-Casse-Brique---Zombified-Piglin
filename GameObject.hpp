@@ -11,6 +11,7 @@ private:
 	sf::Shape* pShape;
 	sf::Color outlineColor;
 	float thickness;
+	float angle;
 
 public:
 	GameObject(int x, int y, int w, int h);//rectangle
@@ -26,4 +27,6 @@ public:
 	void setFillColor(sf::Color _color);
 	void setOutlineThickness(float _thickness);
 	void setOutlineColor(sf::Color _outlineColor);
+	void setRotation(float _angle);
+	bool isColliding(GameObject entity);
 };
