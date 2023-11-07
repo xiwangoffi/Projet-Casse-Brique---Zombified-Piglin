@@ -6,7 +6,7 @@ bool Input::shoot() {
         return true;
     }
 }
-
+/*
 sf::Vector2f Input::mousePosition()
 {
     sf::Vector2i localPosition = sf::Mouse::getPosition();
@@ -15,4 +15,4 @@ sf::Vector2f Input::mousePosition()
 
 
     return;
-}
+}*/

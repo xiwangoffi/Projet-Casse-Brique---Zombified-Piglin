@@ -46,7 +46,7 @@ int main()
         window.draw(*test.GetShape());
         window.draw(*temp.GetShape());
 
-        temp.isColliding(test) ? cout << "colliding" << endl : cout << "no collision" << endl;
+        temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
         window.display();
 
