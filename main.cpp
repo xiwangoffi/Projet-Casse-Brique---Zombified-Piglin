@@ -36,8 +36,10 @@ int main()
             Input::shoot();
             cout << "Shoot";
             bullet = 1;
+            
         }
-
+        Input::mousePositionX(window);
+        Input::mousePositionY(window);
         window.clear();
 
         temp.addPosition(0, -1, 50.f, dT);
@@ -46,7 +48,7 @@ int main()
         window.draw(*test.GetShape());
         window.draw(*temp.GetShape());
 
-        temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
+        //temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
         window.display();
 

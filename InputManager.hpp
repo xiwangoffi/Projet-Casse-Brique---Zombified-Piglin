@@ -7,6 +7,9 @@ private:
 	bool mouseClick;
 
 public:
+	sf::RenderWindow window;
+
 	static bool shoot();
-	sf::Vector2f mousePosition();
+	static int mousePositionX(sf::RenderWindow window);
+	static int mousePositionY(sf::RenderWindow window);
 };
