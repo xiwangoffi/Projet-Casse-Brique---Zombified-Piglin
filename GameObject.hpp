@@ -12,6 +12,8 @@ private:
 	sf::Color outlineColor;
 	float thickness;
 	float angle;
+	float origin_X;
+	float origin_Y;
 
 public:
 	GameObject(int x, int y, int w, int h);//rectangle
@@ -33,4 +35,7 @@ public:
 	float getRotation() { return pShape->getRotation(); }
 	void addPosition(int x, int y, float speed, float dT);
 	bool isColliding(const GameObject* entity);
+	void setOrigin(float x, float y);
+	void centerOrigin();
+	void fixHitbox();
 };

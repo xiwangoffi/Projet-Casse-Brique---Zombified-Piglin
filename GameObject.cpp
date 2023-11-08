@@ -62,7 +62,28 @@ void GameObject::addRotation(float _angle, float speed, float dT) {
 	setRotation(angle);
 }
 
+void GameObject::fixHitbox() {
+	RectangleShape hitbox = RectangleShape(Vector2f(1, 1) * 100.f);
+	hitbox.setFillColor(color.Green);
+	hitbox.setPosition(pShape->getPosition());
+	hitbox.setOrigin(Vector2f(1, 1) * 50.f);
+}
+
 #pragma endregion Rotation
+
+#pragma region Origin
+
+void GameObject::setOrigin(float x, float y) {
+	origin_X = x;
+	origin_Y = y;
+	pShape->setOrigin(origin_X, origin_Y);
+}
+
+void GameObject::centerOrigin() {
+	pShape->setOrigin(size.x * 0.5f, size.y * 0.5f);
+}
+
+#pragma endregion Origin
 
 void GameObject::setSize(Vector2f _size) {
 	size = _size;
@@ -74,7 +95,6 @@ void GameObject::setOutlineThickness(float _thickness) {
 	thickness = _thickness;
 	pShape->setOutlineThickness(thickness);
 }
-
 
 bool GameObject::isColliding(const GameObject* entity) 
 {

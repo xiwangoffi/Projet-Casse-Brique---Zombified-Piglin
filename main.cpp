@@ -38,17 +38,24 @@ int main()
             bullet = 1;
             
         }
-        Input::mousePositionX(window);
-        Input::mousePositionY(window);
         window.clear();
 
-        temp.addPosition(0, -1, 50.f, dT);
-        temp.addRotation(5, 20.f, dT);
-
+        temp.centerOrigin();
+        //temp.fixHitbox();
+        temp.addPosition(0, -50, 2.f, dT);
+        temp.addRotation(50.f, 2.f, dT);
+        //temp.setRotation(temp.getRotation() + 10 * dT);
         window.draw(*test.GetShape());
         window.draw(*temp.GetShape());
 
-        //temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
+        RectangleShape hitbox = RectangleShape(Vector2f(1, 1) * 100.f);
+        hitbox.setFillColor(Color(255, 158, 9, 255));
+        hitbox.setPosition(temp.getPosition());
+        hitbox.setOrigin(Vector2f(1, 1) * 50.f);
+
+        window.draw(hitbox);
+
+        temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
         window.display();
 
