@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Fullscreen);
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(240);
     int bullet = 0;
@@ -33,13 +33,13 @@ int main()
                 window.close();
         }
         if (!bullet){
-            Input::shoot();
-            cout << "Shoot";
-            bullet = 1;
-            
+            if (Input::shoot()) {
+                cout << "Shoot !" << endl;
+                bullet = 1;
+            }            
         }
-        Input::mousePositionX(window);
-        Input::mousePositionY(window);
+        //Input::mousePositionX(window);
+        //Input::mousePositionY(window);
         window.clear();
 
         temp.addPosition(0, -1, 50.f, dT);
