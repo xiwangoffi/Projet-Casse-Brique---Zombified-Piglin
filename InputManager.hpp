@@ -7,9 +7,7 @@ private:
 	bool mouseClick;
 
 public:
-	sf::RenderWindow window;
-
 	static bool shoot();
-	static int mousePositionX(sf::RenderWindow window);
-	static int mousePositionY(sf::RenderWindow window);
+	static int mousePositionX(sf::RenderWindow& window);
+	static int mousePositionY(sf::RenderWindow& window);
 };

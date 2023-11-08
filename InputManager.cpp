@@ -7,16 +7,16 @@ bool Input::shoot() {
     }
 }
 
-int Input::mousePositionX(sf::RenderWindow _window)
+int Input::mousePositionX(sf::RenderWindow& _window)
 {
-    sf::Vector2i localPosition = sf::Mouse::getPosition();
+    sf::Vector2i localPosition = sf::Mouse::getPosition(_window);
     std::cout << "Vous etes ici en X :" << localPosition.x << std::endl;
     return  localPosition.x;
 }
 
-int Input::mousePositionY(sf::RenderWindow _window)
+int Input::mousePositionY(sf::RenderWindow& _window)
 {
-    sf::Vector2i localPosition = sf::Mouse::getPosition();
+    sf::Vector2i localPosition = sf::Mouse::getPosition(_window);
     std::cout << "Vous etes ici en Y :" << localPosition.y << std::endl;
     return  localPosition.y;
 }
