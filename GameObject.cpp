@@ -113,43 +113,34 @@ int GameObject::getSideToCollide(const GameObject* entity) {
 	float ball_right = position.x + size.x;
 	float brick_right = entity->position.x + entity->size.x;
 
-	float b_collision = brick_bottom - position.y;
-	float t_collision = ball_bottom - entity->position.y;
-	float l_collision = ball_right - entity->position.x;
-	float r_collision = brick_right - position.x;
-	
-	/*
-	if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision) {
-		return 0; // TOP COLLISION
-	}
-	if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
-		return 1; // BOTTOM COLLISION
-	}
-	if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
-		return 2; // LEFT COLLISION
-	}
-	if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision) {
-		return 3; // RIGHT COLLISION
-	}*/
+	float y_overlap = std::min(ball_bottom, brick_bottom) - std::max(position.y, entity->position.y);
+	float x_overlap = std::min(ball_right, brick_right) - std::max(position.x, entity->position.x);
 
-	if (position.y <= entity->position.y + entity->size.y && position.y > entity->position.y || position.y + size.y <= entity->position.y + entity->size.y && position.y + size.y > entity->position.y) {
-		if (position.x - 2 < entity->position.x + entity->size.x && position.x > entity->position.x) {
-			return 2;
+	float minOverlapThreshold = 5.0f; // Ajustez cela en fonction de vos besoins
+
+	// Check for collision on each side with a minimum overlap threshold
+	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold) {
+		if (position.x < entity->position.x) {
+			return 2; // Left collision
 		}
-		else if (position.x + size.x + 2 > entity->position.x && position.x + size.x < entity->position.x + entity->size.x) {
-			return 3;
+		else {
+			return 3; // Right collision
+		}
+	}
+	else if (x_overlap > minOverlapThreshold) {
+		if (position.y < entity->position.y) {
+			return 0; // Top collision
+		}
+		else {
+			return 1; // Bottom collision
 		}
 	}
 
-	if (position.x <= entity->position.x + size.x && position.x > entity->position.x || position.x + size.x <= entity->position.x + entity->size.x && position.x + size.x > entity->position.x) {
-		if (position.y - 2 < entity->position.y + entity->size.y && position.y > entity->position.y) {
-			return 0;
-		}
-		else  if (position.y + size.y + 2 > entity->position.y && position.y + size.y < entity->position.y + entity->size.y) {
-			return 1;
-		}
-	}
+	// Return -1 if no collision
+	return -1;
 }
+
+
 
 void GameObject::draw(sf::RenderWindow& window, bool bDrawHitBox)
 {

@@ -48,7 +48,7 @@ int main()
         }
 
         window.clear();
-        temp.setRotation(temp.getRotation() + 10 * dT);
+        //temp.setRotation(temp.getRotation() + 10 * dT);
     
         temp.draw(window, true);
         test.draw(window);
