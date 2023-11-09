@@ -31,6 +31,14 @@ int main()
 				window.close();
             if (event.type == sf::Event::Closed)
                 window.close();
+            if (event.key.code == sf::Keyboard::Z)
+                temp.addPosition(0, -50, 30.f, dT);            
+            if (event.key.code == sf::Keyboard::S)
+                temp.addPosition(0, +50, 30.f, dT);
+            if (event.key.code == sf::Keyboard::Q)
+                temp.addPosition(-50, 0, 30.f, dT);
+            if (event.key.code == sf::Keyboard::D)
+                temp.addPosition(50, 0, 30.f, dT);
         }
         if (!bullet){
             if (Input::shoot()) {
@@ -38,26 +46,26 @@ int main()
                 bullet = 1;
             }            
         }
-        //Input::mousePositionX(window);
-        //Input::mousePositionY(window);
+
         window.clear();
-
-        temp.centerOrigin();
-        //temp.fixHitbox();
-        temp.addPosition(0, -50, 2.f, dT);
-        temp.addRotation(50.f, 2.f, dT);
-        //temp.setRotation(temp.getRotation() + 10 * dT);
-        window.draw(*test.GetShape());
-        window.draw(*temp.GetShape());
-
-        RectangleShape hitbox = RectangleShape(Vector2f(1, 1) * 100.f);
-        hitbox.setFillColor(Color(255, 158, 9, 255));
-        hitbox.setPosition(temp.getPosition());
-        hitbox.setOrigin(Vector2f(1, 1) * 50.f);
-
-        window.draw(hitbox);
+        temp.setRotation(temp.getRotation() + 10 * dT);
+    
+        temp.draw(window, true);
+        test.draw(window);
 
         temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
+        if (temp.getSideToCollide(&test) == 0) {
+            cout << "TOP" << endl;
+        }
+        if (temp.getSideToCollide(&test) == 1) {
+            cout << "BOTTOM" << endl;
+        }
+        if (temp.getSideToCollide(&test) == 2) {
+            cout << "LEFT" << endl;
+        }
+        if (temp.getSideToCollide(&test) == 3) {
+            cout << "RIGHT" << endl;
+        }
 
         window.display();
 
