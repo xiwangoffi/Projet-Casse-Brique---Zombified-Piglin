@@ -2,13 +2,18 @@
 #include <SFML/Graphics.hpp>
 #include "GameObject.hpp"
 #include "InputManager.hpp"
-//#include "App.hpp"
+#include "App.hpp"
     
 using namespace sf;
 using namespace std;
 
 int main()
 {
+    WindowData data = {
+		"Bricks",
+        1920, 1080, true, true
+	};
+
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Fullscreen);
     window.setVerticalSyncEnabled(true);
     window.setFramerateLimit(240);
@@ -20,24 +25,10 @@ int main()
 
     Vector2f pos(80, 500);
     float dT = 0.f;
-    
-    Clock clock;
+
+    sf::Clock clock;
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-           if (event.key.code == sf::Keyboard::Escape)
-				window.close();
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-        if (!bullet){
-            if (Input::shoot()) {
-                cout << "Shoot !" << endl;
-                bullet = 1;
-            }            
-        }
         //Input::mousePositionX(window);
         //Input::mousePositionY(window);
         window.clear();

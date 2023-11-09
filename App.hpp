@@ -1,14 +1,32 @@
 #pragma once
-/*
-#include <iosteam>
+#include <iostream>
 #include <SFML/Graphics.hpp>
-#include "GameObject.h"
+#include "GameObject.hpp"
+
+struct WindowData {
+	const char* title;
+	int width = 1920;
+	int height = 1080;
+};
+
+class Clock {
+private:
+	int fps;
+	double deltaTime;
+public:
+	Clock();
+	~Clock();
+
+	double DeltaTime() { return deltaTime; }
+	int FPS() { return fps; }
+};
 
 class App {
-	public:
+private:
+	sf::RenderWindow& window;
+public:
+	App(WindowData data);
+	~App();
+	void HandleEvent();
+};
 
-		App();
-		~App();
-		void InitWindow(int width, int height);
-
-};*/
