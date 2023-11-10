@@ -8,6 +8,6 @@ private:
 
 public:
 	static bool shoot();
-	static int mousePositionX(sf::RenderWindow& window);
-	static int mousePositionY(sf::RenderWindow& window);
+	static int getMousePositionX(sf::RenderWindow& window);
+	static int getMousePositionY(sf::RenderWindow& window);
 };
