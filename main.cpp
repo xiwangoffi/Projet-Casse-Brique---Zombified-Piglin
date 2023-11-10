@@ -11,7 +11,7 @@ int main()
 {
     WindowData data = {
 		"Bricks",
-        1920, 1080, true, true
+        1920, 1080
 	};
 
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "My window", sf::Style::Fullscreen);

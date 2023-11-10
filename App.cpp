@@ -11,9 +11,9 @@ Clock::Clock() {
 Clock::~Clock() 
 {}
 
-App::App(WindowData data)
+App::App(const WindowData& data)
 {	
-	sf::RenderWindow window(sf::VideoMode(data.width,data.height), data.title, sf::Style::Fullscreen);
+	window.create(sf::VideoMode(data.width, data.height), data.title, sf::Style::Fullscreen);
 }
 
 App::~App()

@@ -23,9 +23,9 @@ public:
 
 class App {
 private:
-	sf::RenderWindow& window;
+	sf::RenderWindow window;
 public:
-	App(WindowData data);
+	App(const WindowData& data);
 	~App();
 	void HandleEvent();
 };
