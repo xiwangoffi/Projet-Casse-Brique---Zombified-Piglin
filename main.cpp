@@ -1,5 +1,3 @@
-#include <iostream>
-#include <SFML/Graphics.hpp>
 #include "App.hpp"
     
 using namespace sf;
@@ -11,12 +9,12 @@ int main()
 		"Bricks",
         1920, 1080
 	};
-
-    App::Renderer();
+    App app(data);
+    app.Render();
     
-    while (window.isOpen())
+    while (app.IsRunning())
     {
-        App::Update();
+        app.Update();
     }
 
     return 0;

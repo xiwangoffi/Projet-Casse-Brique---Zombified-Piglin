@@ -148,7 +148,7 @@ int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 
 	float minOverlapThreshold = 5.0f;
 
-	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold && isColliding(this)) {
+	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold && isColliding(entity)) {
 		if (position.x < entity->position.x) {
 			// Left collision
 			resolveCollision(entity, 2, dT); 
@@ -160,7 +160,7 @@ int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 			return 3;
 		}
 	}
-	else if (x_overlap > minOverlapThreshold && isColliding(this)) {
+	else if (x_overlap > minOverlapThreshold && isColliding(entity)) {
 		if (position.y < entity->position.y) {
 			// Top collision
 			resolveCollision(entity, 0, dT);

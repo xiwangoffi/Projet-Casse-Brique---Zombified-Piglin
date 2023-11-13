@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
-#include <SFML/Graphics.hpp>
 #include "GameObject.hpp"
+#include <vector>
 
 struct WindowData {
 	const char* title;
@@ -13,6 +12,7 @@ class Clock {
 private:
 	int fps;
 	double deltaTime;
+
 public:
 	Clock();
 	~Clock();
@@ -24,11 +24,16 @@ public:
 class App {
 private:
 	sf::RenderWindow window;
+	float dT = 0.f;
+	std::vector<GameObject*> go;
+	
 public:
 	App(const WindowData& data);
 	~App();
 	void HandleEvent();
-	void Renderer();
+	void Render();
 	void Update();
+
+	bool IsRunning() { return window.isOpen(); }
 };
 
