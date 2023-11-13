@@ -64,7 +64,7 @@ void GameObject::setRotation(float _angle, float fAnchorX, float fAnchorY) {
 	pShape->setRotation(angle);
 }
 
-void GameObject::addRotation(float _angle, float speed, float dT, float fAnchorX, float fAnchorY) { //C'est bugué ici, hitbox décalé, going to cry
+void GameObject::addRotation(float _angle, float speed, float dT, float fAnchorX, float fAnchorY) {
 	float angle = pShape->getRotation();
 	angle += _angle * speed * dT;
 	setRotation(angle, fAnchorX, fAnchorY);
@@ -112,16 +112,15 @@ bool GameObject::isColliding(const GameObject* entity)
 	cout << "t3: " << entity->position.y << ", " << position.y << ", " << size.y << endl;
 	cout << "t4: " << entity->position.y << ", " << entity->size.y << ", " << position.y << endl;*/
 
-	return !((entity->position.x >= position.x + size.x) // trop à droite
-		|| (entity->position.x + entity->size.x <= position.x) // trop à gauche
+	return !((entity->position.x >= position.x + size.x) // trop Ã  droite
+		|| (entity->position.x + entity->size.x <= position.x) // trop Ã  gauche
 		|| (entity->position.y >= position.y + size.y) // trop en bas
 		|| (entity->position.y + entity->size.y <= position.y)); // trop en haut
 }
 
 void GameObject::resolveCollision(const GameObject* entity, int side, float& dT) {
-	float overlap = 5.0f; // Ajustez cela en fonction de vos besoins
+	float overlap = 5.0f;
 
-	// Move away from the collision to resolve it
 	switch (side) {
 	case 0: // Top collision
 		addPosition(0, -50, 2.f, dT);
@@ -152,24 +151,24 @@ int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold && isColliding(this)) {
 		if (position.x < entity->position.x) {
 			// Left collision
-			resolveCollision(entity, 2, dT); // Resolve collision by adjusting position
+			resolveCollision(entity, 2, dT); 
 			return 2;
 		}
 		else {
 			// Right collision
-			resolveCollision(entity, 3, dT); // Resolve collision by adjusting position
+			resolveCollision(entity, 3, dT);
 			return 3;
 		}
 	}
 	else if (x_overlap > minOverlapThreshold && isColliding(this)) {
 		if (position.y < entity->position.y) {
 			// Top collision
-			resolveCollision(entity, 0, dT); // Resolve collision by adjusting position
+			resolveCollision(entity, 0, dT);
 			return 0;
 		}
 		else {
 			// Bottom collision
-			resolveCollision(entity, 1, dT); // Resolve collision by adjusting position
+			resolveCollision(entity, 1, dT);
 			return 1;
 		}
 	}
