@@ -118,56 +118,63 @@ bool GameObject::isColliding(const GameObject* entity)
 		|| (entity->position.y + entity->size.y <= position.y)); // trop en haut
 }
 
-int GameObject::getSideToCollide(const GameObject* entity) {
+void GameObject::resolveCollision(const GameObject* entity, int side, float& dT) {
+	float overlap = 5.0f; // Ajustez cela en fonction de vos besoins
+
+	// Move away from the collision to resolve it
+	switch (side) {
+	case 0: // Top collision
+		addPosition(0, -50, 2.f, dT);
+		break;
+	case 1: // Bottom collision
+		addPosition(0, 50, 2.f, dT);
+		break;
+	case 2: // Left collision
+		addPosition(-50, 0, 2.f, dT);
+		break;
+	case 3: // Right collision
+		addPosition(50, 0, 2.f, dT);
+		break;
+	}
+}
+
+int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 	float ball_bottom = position.y + size.y;
 	float brick_bottom = entity->position.y + entity->size.y;
 	float ball_right = position.x + size.x;
 	float brick_right = entity->position.x + entity->size.x;
 
-	float b_collision = brick_bottom - position.y;
-	float t_collision = ball_bottom - entity->position.y;
-	float l_collision = ball_right - entity->position.x;
-	float r_collision = brick_right - position.x;
+	float y_overlap = std::min(ball_bottom, brick_bottom) - std::max(position.y, entity->position.y);
+	float x_overlap = std::min(ball_right, brick_right) - std::max(position.x, entity->position.x);
 
-	/*
-	if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision) {
-		return 0; // TOP COLLISION
-	}
-	if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
-		return 1; // BOTTOM COLLISION
-	}
-	if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
-		return 2; // LEFT COLLISION
-	}
-	if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision) {
-		return 3; // RIGHT COLLISION
-	}*/
+	float minOverlapThreshold = 5.0f;
 
-	// Check for collision on each side with a minimum overlap threshold
-	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold) {
+	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold && isColliding(this)) {
 		if (position.x < entity->position.x) {
 			// Left collision
-			velocity.x = -std::abs(velocity.x); // Bounce in the opposite direction
+			resolveCollision(entity, 2, dT); // Resolve collision by adjusting position
 			return 2;
 		}
 		else {
 			// Right collision
-			velocity.x = std::abs(velocity.x); // Bounce in the opposite direction
+			resolveCollision(entity, 3, dT); // Resolve collision by adjusting position
 			return 3;
 		}
 	}
-	else if (x_overlap > minOverlapThreshold) {
+	else if (x_overlap > minOverlapThreshold && isColliding(this)) {
 		if (position.y < entity->position.y) {
 			// Top collision
-			velocity.y = -std::abs(velocity.y); // Bounce in the opposite direction
+			resolveCollision(entity, 0, dT); // Resolve collision by adjusting position
 			return 0;
 		}
 		else {
 			// Bottom collision
-			velocity.y = std::abs(velocity.y); // Bounce in the opposite direction
+			resolveCollision(entity, 1, dT); // Resolve collision by adjusting position
 			return 1;
 		}
 	}
+
+	return -1; // No collision
 }
 
 #pragma endregion Collision

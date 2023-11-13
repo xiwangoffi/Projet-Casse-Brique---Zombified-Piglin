@@ -55,7 +55,7 @@ int main()
 
         window.clear();
 
-
+        temp.addPosition(0, -50, 2.f, dT);
         canon.addCanonRotation(Mouse::getPosition(window));
 
         for (int i = 0; i < objList.size(); i++) {
@@ -63,16 +63,16 @@ int main()
         }
 
         temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
-        if (temp.getSideToCollide(&test) == 0) {
+        if (temp.getSideToCollide(&test, dT) == 0) {
             cout << "TOP" << endl;
         }
-        if (temp.getSideToCollide(&test) == 1) {
+        if (temp.getSideToCollide(&test, dT) == 1) {
             cout << "BOTTOM" << endl;
         }
-        if (temp.getSideToCollide(&test) == 2) {
+        if (temp.getSideToCollide(&test, dT) == 2) {
             cout << "LEFT" << endl;
         }
-        if (temp.getSideToCollide(&test) == 3) {
+        if (temp.getSideToCollide(&test, dT) == 3) {
             cout << "RIGHT" << endl;
         }
 

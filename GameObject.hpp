@@ -65,7 +65,8 @@ public:
 #pragma region Collision
 
 	bool isColliding(const GameObject* entity);
-	int getSideToCollide(const GameObject* entity);
+	void resolveCollision(const GameObject* entity, int side, float& dT);
+	int getSideToCollide(const GameObject* entity, float dT);
 
 #pragma endregion Collision
 
