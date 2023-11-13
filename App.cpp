@@ -29,10 +29,8 @@ void App::HandleEvent() {
 		case sf::Event::Closed:
 			window.close();
 			break;
-		case sf::Event::KeyPressed:
-			Input::handleInputEvent(&event,window);
-			break;
 		default:
+			Input::handleInputEvent(&event, window);
 			break;
 		}
 	}
@@ -63,6 +61,7 @@ void App::Update() {
 
 	go[1]->setOriginCenter();
 	go[1]->addPosition(0, -50, 2.f, dT);
+	go[2]->addCanonRotation(sf::Mouse::getPosition(window));
 
 	for (int i = 0; i < go.size(); i++) {
 		go[i]->draw(window);
