@@ -16,6 +16,7 @@ private:
 	float origin_Y;
 
 	sf::RectangleShape oHitBox;
+	sf::Vector2f velocity;
 
 public:
 	GameObject(int x, int y, int w, int h);//rectangle

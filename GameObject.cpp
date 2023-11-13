@@ -121,24 +121,33 @@ int GameObject::getSideToCollide(const GameObject* entity) {
 	// Check for collision on each side with a minimum overlap threshold
 	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold) {
 		if (position.x < entity->position.x) {
-			return 2; // Left collision
+			// Left collision
+			velocity.x = -std::abs(velocity.x); // Bounce in the opposite direction
+			return 2;
 		}
 		else {
-			return 3; // Right collision
+			// Right collision
+			velocity.x = std::abs(velocity.x); // Bounce in the opposite direction
+			return 3;
 		}
 	}
 	else if (x_overlap > minOverlapThreshold) {
 		if (position.y < entity->position.y) {
-			return 0; // Top collision
+			// Top collision
+			velocity.y = -std::abs(velocity.y); // Bounce in the opposite direction
+			return 0;
 		}
 		else {
-			return 1; // Bottom collision
+			// Bottom collision
+			velocity.y = std::abs(velocity.y); // Bounce in the opposite direction
+			return 1;
 		}
 	}
 
 	// Return -1 if no collision
 	return -1;
 }
+
 
 
 
