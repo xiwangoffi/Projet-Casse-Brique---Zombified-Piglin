@@ -16,7 +16,13 @@ int main()
 
     GameObject test(50, 50, 1000, 100);
     GameObject temp(150, 500, 100, 100);
+    GameObject canon(1920 * 0.45, 800, 100, 3.f);
     test.setFillColor(Color(255, 100, 0, 255));
+
+    vector<GameObject> objList;
+    objList.push_back(test);
+    objList.push_back(temp);
+    objList.push_back(canon);
 
     Vector2f pos(80, 500);
     float dT = 0.f;
@@ -48,10 +54,13 @@ int main()
         }
 
         window.clear();
-        //temp.setRotation(temp.getRotation() + 10 * dT);
-    
-        temp.draw(window, true);
-        test.draw(window);
+
+
+        canon.addCanonRotation(Mouse::getPosition(window));
+
+        for (int i = 0; i < objList.size(); i++) {
+            objList[i].draw(window);
+        }
 
         temp.isColliding(&test) ? cout << "colliding" << endl : cout << "no collision" << endl;
         if (temp.getSideToCollide(&test) == 0) {

@@ -15,8 +15,9 @@ GameObject::GameObject(int x, int y, int w, int h) {
 	setPosition(Vector2f(x, y));
 }
 
-GameObject::GameObject(int x, int y, int radius) {
-	pShape = new CircleShape(radius);
+GameObject::GameObject(int x, int y, int radius, float dot) {
+	pShape = new CircleShape(radius, dot);
+	pShape->setOrigin(radius, radius);
 	setPosition(Vector2f(x, y));
 }
 
@@ -69,6 +70,13 @@ void GameObject::addRotation(float _angle, float speed, float dT, float fAnchorX
 	setRotation(angle, fAnchorX, fAnchorY);
 }
 
+void GameObject::addCanonRotation(Vector2i pos) {
+	if (pos.y < position.y) {
+		float mouseAngle = -atan2(pos.x - position.x, pos.y - position.y) * 180 / 3.14159;
+		pShape->setRotation(mouseAngle);
+	}
+}
+
 #pragma endregion Rotation
 
 #pragma region Origin
@@ -93,13 +101,16 @@ void GameObject::setOutlineThickness(float _thickness) {
 	pShape->setOutlineThickness(thickness);
 }
 
+#pragma region Collision
+
 bool GameObject::isColliding(const GameObject* entity) 
 {
+	/*
 	cout << endl;
 	cout << "t1: " << entity->position.x << ", " << position.x << ", " << size.x << endl;
 	cout << "t2: " << entity->position.x << ", " << entity->size.x << ", " << position.x << endl;
 	cout << "t3: " << entity->position.y << ", " << position.y << ", " << size.y << endl;
-	cout << "t4: " << entity->position.y << ", " << entity->size.y << ", " << position.y << endl;
+	cout << "t4: " << entity->position.y << ", " << entity->size.y << ", " << position.y << endl;*/
 
 	return !((entity->position.x >= position.x + size.x) // trop à droite
 		|| (entity->position.x + entity->size.x <= position.x) // trop à gauche
@@ -113,10 +124,24 @@ int GameObject::getSideToCollide(const GameObject* entity) {
 	float ball_right = position.x + size.x;
 	float brick_right = entity->position.x + entity->size.x;
 
-	float y_overlap = std::min(ball_bottom, brick_bottom) - std::max(position.y, entity->position.y);
-	float x_overlap = std::min(ball_right, brick_right) - std::max(position.x, entity->position.x);
+	float b_collision = brick_bottom - position.y;
+	float t_collision = ball_bottom - entity->position.y;
+	float l_collision = ball_right - entity->position.x;
+	float r_collision = brick_right - position.x;
 
-	float minOverlapThreshold = 5.0f; // Ajustez cela en fonction de vos besoins
+	/*
+	if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision) {
+		return 0; // TOP COLLISION
+	}
+	if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
+		return 1; // BOTTOM COLLISION
+	}
+	if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
+		return 2; // LEFT COLLISION
+	}
+	if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision) {
+		return 3; // RIGHT COLLISION
+	}*/
 
 	// Check for collision on each side with a minimum overlap threshold
 	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold) {
@@ -143,12 +168,9 @@ int GameObject::getSideToCollide(const GameObject* entity) {
 			return 1;
 		}
 	}
-
-	// Return -1 if no collision
-	return -1;
 }
 
-
+#pragma endregion Collision
 
 
 void GameObject::draw(sf::RenderWindow& window, bool bDrawHitBox)
