@@ -16,9 +16,13 @@ private:
 	float origin_Y;
 
 	sf::RectangleShape oHitBox;
-	sf::Vector2f velocity;
+	sf::Vector2f direction;
 
 public:
+
+	void setDirection(const sf::Vector2f& _direction);
+	void move(float dT);
+	void multiplyDirection(float _factorX, float _factorY);
 
 #pragma region Constructor
 

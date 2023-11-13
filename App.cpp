@@ -20,6 +20,7 @@ App::App(const WindowData& data)
 
 App::~App()
 {
+	delete& go;
 }
 
 void App::HandleEvent() {
@@ -59,8 +60,9 @@ void App::Update() {
 	Input::getMousePositionY(window);
 	window.clear();
 
-	go[1]->setOriginCenter();
-	go[1]->addPosition(0, -50, 2.f, dT);
+	go[1]->setDirection(sf::Vector2f(0, -50));
+
+
 	go[2]->addCanonRotation(sf::Mouse::getPosition(window));
 
 	for (int i = 0; i < go.size(); i++) {

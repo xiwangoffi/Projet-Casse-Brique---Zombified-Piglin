@@ -1,5 +1,7 @@
 #include "GameObject.hpp"
 
+#include "Mathematics.hpp"
+
 using namespace sf;
 using namespace std;
 
@@ -37,6 +39,24 @@ void GameObject::addPosition(int x, int y, float speed, float dT) {
 	Vector2f pos = pShape->getPosition();
 	pos += Vector2f(x, y) * speed * dT;
 	setPosition(pos);
+}
+
+void GameObject::move(float dT) 
+{
+	addPosition(direction.x, direction.y, 2.f, dT);
+}
+
+
+void GameObject::setDirection(const sf::Vector2f& _direction) 
+{
+	direction = _direction;
+	Mathematics::Normalize(&direction);
+}
+
+void GameObject::multiplyDirection(float _factorX, float _factorY)
+{
+	direction.x *= _factorX;
+	direction.y *= _factorY;
 }
 
 #pragma endregion Position
