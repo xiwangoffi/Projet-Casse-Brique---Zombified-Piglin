@@ -11,7 +11,6 @@ void Input::handleInputEvent(sf::Event* event, sf::RenderWindow& window) {
          break;
     default:
         break;
-        break;
     }
 }
 int Input::mousePositionX(sf::RenderWindow& _window)

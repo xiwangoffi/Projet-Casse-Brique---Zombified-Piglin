@@ -28,5 +28,7 @@ public:
 	App(const WindowData& data);
 	~App();
 	void HandleEvent();
+	void Renderer();
+	void Update();
 };
 
