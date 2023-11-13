@@ -1,9 +1,16 @@
 #include "InputManager.hpp"
 
 
-bool Input::shoot() {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Right)){
-        return true;
+void Input::handleInputEvent(sf::Event* event, sf::RenderWindow& window) {
+    switch (event->type) {
+    case sf::Keyboard::Escape:
+        window.close();
+        break;
+     case sf::Mouse::Right:
+         std::cout << "shoot" << std::endl;
+         break;
+    default:
+        break;
     }
 }
 
