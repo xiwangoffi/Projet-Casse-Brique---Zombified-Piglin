@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     WindowData data = {
-		"Bricks",
+		"Brick my ass",
         1920, 1080
 	};
     App app(data);
@@ -15,6 +15,7 @@ int main()
     while (app.IsRunning())
     {
         app.Update();
+        app.HandleEvent();
     }
 
     return 0;

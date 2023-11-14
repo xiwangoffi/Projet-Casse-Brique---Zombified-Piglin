@@ -31,7 +31,6 @@ void App::HandleEvent() {
 			window.close();
 			break;
 		default:
-			Input::handleInputEvent(&event, window);
 			break;
 		}
 	}
@@ -40,7 +39,6 @@ void App::HandleEvent() {
 void App::Render() {
 
 	int i = 5;
-	int bullet = 0;
 	go.clear();
 	go.push_back(new GameObject(50, 50, 1000, 100));
 	go.push_back(new GameObject(150, 500, 100, 100));
@@ -49,6 +47,7 @@ void App::Render() {
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
 
 	sf::Vector2f pos(80, 500);
+	Instance.Initialize();
 }
 
 void App::Update() {
@@ -56,8 +55,7 @@ void App::Update() {
 	sf::Clock clock;
 	
 
-	Input::getMousePositionX(window);
-	Input::getMousePositionY(window);
+	Input::getMousePosition(window);
 	window.clear();
 
 	go[1]->setDirection(sf::Vector2f(0, -50));
@@ -69,7 +67,7 @@ void App::Update() {
 		go[i]->draw(window);
 	}
 
-	go[1]->isColliding(go[0]) ? cout << "colliding" << endl : cout << "no collision" << endl;
+	//go[1]->isColliding(go[0]) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
 	if (go[1]->getSideToCollide(go[0], dT) == 0) {
 		cout << "TOP" << endl;
