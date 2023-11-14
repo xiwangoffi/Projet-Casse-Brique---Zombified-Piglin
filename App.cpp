@@ -43,11 +43,11 @@ void App::Render() {
 	int bullet = 0;
 	go.clear();
 	go.push_back(new GameObject(50, 50, 1000, 100));
-	go.push_back(new GameObject(150, 500, 100, 100));
+	go.push_back(new GameObject(550, 500, 100, 100));
 	go.push_back(new GameObject(1920 * 0.45, 800, 100, 3.f));
 
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
-	go[1]->setDirection(sf::Vector2f(0, -50));
+	go[1]->setDirection(sf::Vector2f(-50, -70));
 
 	sf::Vector2f pos(80, 500);
 }

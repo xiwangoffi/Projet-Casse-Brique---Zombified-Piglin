@@ -69,6 +69,7 @@ public:
 #pragma region Collision
 
 	bool isColliding(const GameObject* entity);
+	void updateDirection(int side);
 	void resolveCollision(const GameObject* entity, int side, float& dT);
 	int getSideToCollide(const GameObject* entity, float dT);
 
