@@ -15,6 +15,7 @@ int main()
     while (app.IsRunning())
     {
         app.Update();
+        app.HandleEvent();
     }
 
     return 0;

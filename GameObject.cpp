@@ -1,5 +1,4 @@
 #include "GameObject.hpp"
-
 #include "Mathematics.hpp"
 
 using namespace sf;
@@ -43,7 +42,7 @@ void GameObject::addPosition(int x, int y, float speed, float dT) {
 
 void GameObject::move(float dT) 
 {
-	addPosition(direction.x, direction.y, 2.f, dT);
+	addPosition(direction.x, direction.y, 125.f, dT);
 }
 
 
@@ -57,6 +56,8 @@ void GameObject::multiplyDirection(float _factorX, float _factorY)
 {
 	direction.x *= _factorX;
 	direction.y *= _factorY;
+	cout << "direction x: " << direction.x << " direction y: " << direction.y << endl;
+	//setDirection(sf::Vector2f(direction.x, direction.y));
 }
 
 #pragma endregion Position
@@ -143,16 +144,16 @@ void GameObject::resolveCollision(const GameObject* entity, int side, float& dT)
 
 	switch (side) {
 	case 0: // Top collision
-		addPosition(0, -50, 2.f, dT);
+		//multiplyDirection(0.f, -1.f);
 		break;
 	case 1: // Bottom collision
-		addPosition(0, 50, 2.f, dT);
+		multiplyDirection(0, -1);
 		break;
 	case 2: // Left collision
-		addPosition(-50, 0, 2.f, dT);
+		//multiplyDirection(-1.f, 0.f);
 		break;
 	case 3: // Right collision
-		addPosition(50, 0, 2.f, dT);
+		//multiplyDirection(-1.f, 0.f);
 		break;
 	}
 }

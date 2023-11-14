@@ -36,4 +36,3 @@ public:
 
 	bool IsRunning() { return window.isOpen(); }
 };
-

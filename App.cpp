@@ -47,6 +47,7 @@ void App::Render() {
 	go.push_back(new GameObject(1920 * 0.45, 800, 100, 3.f));
 
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
+	go[1]->setDirection(sf::Vector2f(0, -50));
 
 	sf::Vector2f pos(80, 500);
 }
@@ -60,7 +61,7 @@ void App::Update() {
 	Input::getMousePositionY(window);
 	window.clear();
 
-	go[1]->setDirection(sf::Vector2f(0, -50));
+	go[1]->move(dT);
 
 
 	go[2]->addCanonRotation(sf::Mouse::getPosition(window));
