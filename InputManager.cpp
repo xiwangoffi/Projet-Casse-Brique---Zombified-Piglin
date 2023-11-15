@@ -3,6 +3,7 @@
 Input* Input::Instance = nullptr;
 
 Input::Input() {
+    
 }
 
 Input::~Input() {
@@ -16,14 +17,14 @@ void Input::Initialize() {
     Input::Instance = new Input();
 }
 
-bool Input::handleMouseEvent(sf::Event* event, sf::RenderWindow& window)
+bool Input::handleMouseEvent(sf::Event* event, sf::RenderWindow& window, sf::Mouse::Button click)
 {
-    return sf::Mouse::isButtonPressed(sf::Mouse::Left);
+    return sf::Mouse::isButtonPressed(click);
 }
 
-bool Input::handleKeyboardEvent(sf::Event* event, sf::RenderWindow& window)
+bool Input::handleKeyboardEvent(sf::Event* event, sf::RenderWindow& window, sf::Keyboard::Key key)
 {
-    return sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
+    return sf::Keyboard::isKeyPressed(key);
 }
 
 sf::Vector2i Input::getMousePosition(sf::RenderWindow& _window)

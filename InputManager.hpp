@@ -15,8 +15,8 @@ public:
 	static Input* GetInstance() { return Instance; }
 	static void Initialize();
 
-	static bool handleMouseEvent(sf::Event* event, sf::RenderWindow& window);
-	static bool handleKeyboardEvent(sf::Event* event, sf::RenderWindow& window);
+	static bool handleMouseEvent(sf::Event* event, sf::RenderWindow& window, sf::Mouse::Button click);
+	static bool handleKeyboardEvent(sf::Event* event, sf::RenderWindow& window, sf::Keyboard::Key key);
 
-	static sf::Vector2i getMousePosition(sf::RenderWindow& window);
+	sf::Vector2i getMousePosition(sf::RenderWindow& window);
 };

@@ -30,7 +30,17 @@ void App::HandleEvent() {
 		case sf::Event::Closed:
 			window.close();
 			break;
-		default:
+		case sf::Event::KeyPressed:
+			if (Input::handleKeyboardEvent(&event, window, sf::Keyboard::Escape)) {
+				window.close();
+			}
+			break;
+		case sf::Event::MouseButtonPressed:
+			if (Input::handleMouseEvent(&event, window, sf::Mouse::Right)) {
+				std::cout << "UwU Papagnan UwU" << std::endl;
+			}
+			break;
+		default: 
 			break;
 		}
 	}
@@ -47,7 +57,6 @@ void App::Render() {
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
 
 	sf::Vector2f pos(80, 500);
-	Instance.Initialize();
 }
 
 void App::Update() {
@@ -55,7 +64,7 @@ void App::Update() {
 	sf::Clock clock;
 	
 
-	Input::getMousePosition(window);
+	Input::GetInstance()->getMousePosition(window);
 	window.clear();
 
 	go[1]->setDirection(sf::Vector2f(0, -50));
