@@ -1,7 +1,7 @@
 #include "Bullet.hpp"
 #include "Mathematics.hpp"
 
-Bullet::Bullet(int x, int y, sf::Vector2f _direction, float _speed) : GameObject(x, y, 30, 30) {
+Bullet::Bullet(int x, int y, sf::Vector2f _direction, float _speed) : GameObject(x, y, 15, 100.f) {
 	setDirection(_direction)->setSpeed(_speed);
 }
 

@@ -12,7 +12,7 @@ namespace Mathematics {
 
     void Normalize(sf::Vector2f* vec) {
         float magnitude = Magnitude(*vec);
-        std::cout << "magnitude: " << magnitude << std::endl;
+        //std::cout << "magnitude: " << magnitude << std::endl;
             if (magnitude == 0) return;
         *vec /= magnitude;
     }

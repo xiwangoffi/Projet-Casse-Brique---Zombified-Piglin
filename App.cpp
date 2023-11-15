@@ -6,6 +6,8 @@
 
 using namespace std;
 
+bool shoot;
+
 Clock::Clock() {
 	sf::Clock clock;
 	fps = 0;
@@ -42,7 +44,7 @@ void App::HandleEvent() {
 			break;
 		case sf::Event::MouseButtonPressed:
 			if (Input::handleMouseEvent(&event, window, sf::Mouse::Right)) {
-				std::cout << "UwU Papagnan UwU" << std::endl;
+				shoot = true;
 			}
 			break;
 		default: 
@@ -55,12 +57,14 @@ void App::Render() {
 
 	int i = 5;
 	go.clear();
-	go.push_back(new GameObject(50, 50, 1000, 100));
-	go.push_back(new GameObject(1350, 500, 100, 100));
-	go.push_back(new GameObject(1920 * 0.45, 800, 100, 3.f));
+	go.push_back(new GameObject(50, 50, 1000, 100)); // Brick de référence
+	go.push_back(new GameObject(1350, 500, 100, 100)); // Un testeur
+	go.push_back(new GameObject(1920 * 0.45, 800, 100, 3.f)); // Canon
+	go.push_back(new Bullet(go[2]->getPosition().x - 100, go[2]->getPosition().y - 100, (sf::Vector2f)Input::GetInstance()->getMousePosition(window)));
 
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
 	go[1]->setDirection(sf::Vector2f(-50, -70));
+	go[3]->setDirection(sf::Vector2f(Input::GetInstance()->getMousePosition(window).x, Input::GetInstance()->getMousePosition(window).y));
 
 	sf::Vector2f pos(80, 500);
 }
@@ -74,6 +78,9 @@ void App::Update() {
 	window.clear();
 
 	go[1]->move(dT);
+	if (shoot) {
+		go[3]->move(dT);
+	}
 
 
 	go[2]->addCanonRotation(sf::Mouse::getPosition(window));

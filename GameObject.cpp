@@ -38,7 +38,7 @@ void GameObject::addPosition(int x, int y, float speed, float dT) {
 	Vector2f pos = pShape->getPosition();
 	pos += Vector2f(x, y) * speed * dT;
 	setPosition(pos);
-	cout << position.x << ", " << position.y << endl;
+	//cout << position.x << ", " << position.y << endl;
 }
 
 void GameObject::move(float dT) 
@@ -47,7 +47,7 @@ void GameObject::move(float dT)
 
 	Vector2f newPos = position + direction * dT * 125.f;
 	setPosition(newPos);
-	cout << position.x << ", " << position.y << endl;
+	//cout << position.x << ", " << position.y << endl;
 }
 
 
@@ -55,20 +55,25 @@ void GameObject::setDirection(const sf::Vector2f& _direction)
 {
 	direction = _direction;
 	Mathematics::Normalize(&direction);
-	cout << "direction x: " << direction.x << " direction.y: " << direction.y << endl;
+	//cout << "direction x: " << direction.x << " direction.y: " << direction.y << endl;
 }
 
 void GameObject::multiplyDirection(float _factorX, float _factorY)
 {
 	direction.x *= _factorX;
 	direction.y *= _factorY;
-	cout << "direction x: " << direction.x << " direction y: " << direction.y << endl;
+	//cout << "direction x: " << direction.x << " direction y: " << direction.y << endl;
 	//setDirection(sf::Vector2f(direction.x, direction.y));
 }
 
 GameObject* GameObject::setVelocity(Vector2f _velocity) {
 	velocity = _velocity;
 	return this;
+}
+
+void GameObject::update(float dT)
+{
+	move(dT);
 }
 
 #pragma endregion Position

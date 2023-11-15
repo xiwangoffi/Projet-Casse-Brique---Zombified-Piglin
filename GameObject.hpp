@@ -42,6 +42,7 @@ public:
 	sf::Vector2f getPosition() { return pShape->getPosition(); }
 	void addPosition(int x, int y, float speed, float dT);
 	GameObject* setVelocity(sf::Vector2f _velocity);
+	void update(float dT);
 
 #pragma endregion Position
 
