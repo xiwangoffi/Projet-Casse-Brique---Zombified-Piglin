@@ -1,5 +1,8 @@
 #include "App.hpp"
 #include "InputManager.hpp"
+#include "Bullet.hpp"
+#include "Brick.hpp"
+#include "Mathematics.hpp"
 
 using namespace std;
 
@@ -20,7 +23,9 @@ App::App(const WindowData& data)
 
 App::~App()
 {
-	delete& go;
+	for (int i = 0; i < go.size(); i++) {
+		delete go[i];
+	}
 }
 
 void App::HandleEvent() {
@@ -51,7 +56,7 @@ void App::Render() {
 	int i = 5;
 	go.clear();
 	go.push_back(new GameObject(50, 50, 1000, 100));
-	go.push_back(new GameObject(550, 500, 100, 100));
+	go.push_back(new GameObject(1350, 500, 100, 100));
 	go.push_back(new GameObject(1920 * 0.45, 800, 100, 3.f));
 	go.push_back(new);
 
@@ -80,18 +85,7 @@ void App::Update() {
 
 	go[1]->isColliding(go[0]) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
-	if (go[1]->getSideToCollide(go[0], dT) == 0) {
-		cout << "TOP" << endl;
-	}
-	if (go[1]->getSideToCollide(go[0], dT) == 1) {
-		cout << "BOTTOM" << endl;
-	}
-	if (go[1]->getSideToCollide(go[0], dT) == 2) {
-		cout << "LEFT" << endl;
-	}
-	if (go[1]->getSideToCollide(go[0], dT) == 3) {
-		cout << "RIGHT" << endl;
-	}
+	go[1]->getSideToCollide(go[0], dT);
 
 	window.display();
 

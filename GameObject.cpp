@@ -38,11 +38,16 @@ void GameObject::addPosition(int x, int y, float speed, float dT) {
 	Vector2f pos = pShape->getPosition();
 	pos += Vector2f(x, y) * speed * dT;
 	setPosition(pos);
+	cout << position.x << ", " << position.y << endl;
 }
 
 void GameObject::move(float dT) 
 {
-	addPosition(direction.x, direction.y, 125.f, dT);
+	//addPosition(direction.x, direction.y, 125.f, dT);
+
+	Vector2f newPos = position + direction * dT * 125.f;
+	setPosition(newPos);
+	cout << position.x << ", " << position.y << endl;
 }
 
 
@@ -59,6 +64,11 @@ void GameObject::multiplyDirection(float _factorX, float _factorY)
 	direction.y *= _factorY;
 	cout << "direction x: " << direction.x << " direction y: " << direction.y << endl;
 	//setDirection(sf::Vector2f(direction.x, direction.y));
+}
+
+GameObject* GameObject::setVelocity(Vector2f _velocity) {
+	velocity = _velocity;
+	return this;
 }
 
 #pragma endregion Position
@@ -167,7 +177,7 @@ void GameObject::resolveCollision(const GameObject* entity, int side, float& dT)
 		updateDirection(side);
 		break;
 	case 1: // Bottom collision
-		multiplyDirection(0, -1);
+		multiplyDirection(-1, -1);
 		updateDirection(side);
 		break;
 	case 2: // Left collision

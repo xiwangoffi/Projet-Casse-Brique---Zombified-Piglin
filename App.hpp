@@ -24,6 +24,7 @@ public:
 class App {
 private:
 	sf::RenderWindow window;
+	sf::Clock clock;
 	float dT = 0.f;
 	std::vector<GameObject*> go;
 	
