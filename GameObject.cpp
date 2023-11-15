@@ -1,5 +1,4 @@
 #include "GameObject.hpp"
-
 #include "Mathematics.hpp"
 
 using namespace sf;
@@ -43,7 +42,7 @@ void GameObject::addPosition(int x, int y, float speed, float dT) {
 
 void GameObject::move(float dT) 
 {
-	addPosition(direction.x, direction.y, 2.f, dT);
+	addPosition(direction.x, direction.y, 125.f, dT);
 }
 
 
@@ -51,12 +50,15 @@ void GameObject::setDirection(const sf::Vector2f& _direction)
 {
 	direction = _direction;
 	Mathematics::Normalize(&direction);
+	cout << "direction x: " << direction.x << " direction.y: " << direction.y << endl;
 }
 
 void GameObject::multiplyDirection(float _factorX, float _factorY)
 {
 	direction.x *= _factorX;
 	direction.y *= _factorY;
+	cout << "direction x: " << direction.x << " direction y: " << direction.y << endl;
+	//setDirection(sf::Vector2f(direction.x, direction.y));
 }
 
 #pragma endregion Position
@@ -138,24 +140,47 @@ bool GameObject::isColliding(const GameObject* entity)
 		|| (entity->position.y + entity->size.y <= position.y)); // trop en haut
 }
 
+void GameObject::updateDirection(int side) {
+	switch (side) {
+	case 0: // Top collision
+		setDirection(sf::Vector2f(direction.x, -std::abs(direction.y)));
+		break;
+	case 1: // Bottom collision
+		setDirection(sf::Vector2f(direction.x, std::abs(direction.y)));
+		break;
+	case 2: // Left collision
+		setDirection(sf::Vector2f(-std::abs(direction.x), direction.y));
+		break;
+	case 3: // Right collision
+		setDirection(sf::Vector2f(std::abs(direction.x), direction.y));
+		break;
+	}
+}
+
+
 void GameObject::resolveCollision(const GameObject* entity, int side, float& dT) {
 	float overlap = 5.0f;
 
 	switch (side) {
 	case 0: // Top collision
-		addPosition(0, -50, 2.f, dT);
+		// multiplyDirection(0.f, -1.f);
+		updateDirection(side);
 		break;
 	case 1: // Bottom collision
-		addPosition(0, 50, 2.f, dT);
+		multiplyDirection(0, -1);
+		updateDirection(side);
 		break;
 	case 2: // Left collision
-		addPosition(-50, 0, 2.f, dT);
+		// multiplyDirection(-1.f, 0.f);
+		updateDirection(side);
 		break;
 	case 3: // Right collision
-		addPosition(50, 0, 2.f, dT);
+		// multiplyDirection(-1.f, 0.f);
+		updateDirection(side);
 		break;
 	}
 }
+
 
 int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 	float ball_bottom = position.y + size.y;
