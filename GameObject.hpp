@@ -10,6 +10,7 @@ private:
 	sf::Color color;
 	sf::Shape* pShape;
 	sf::Color outlineColor;
+	sf::Vector2f velocity;
 	float thickness;
 	float angle;
 	float origin_X;
@@ -40,6 +41,7 @@ public:
 	void setPosition(sf::Vector2f _position);
 	sf::Vector2f getPosition() { return pShape->getPosition(); }
 	void addPosition(int x, int y, float speed, float dT);
+	GameObject* setVelocity(sf::Vector2f _velocity);
 
 #pragma endregion Position
 
