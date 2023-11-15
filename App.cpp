@@ -53,6 +53,7 @@ void App::Render() {
 	go.push_back(new GameObject(50, 50, 1000, 100));
 	go.push_back(new GameObject(550, 500, 100, 100));
 	go.push_back(new GameObject(1920 * 0.45, 800, 100, 3.f));
+	go.push_back(new);
 
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
 	go[1]->setDirection(sf::Vector2f(-50, -70));
@@ -77,7 +78,7 @@ void App::Update() {
 		go[i]->draw(window);
 	}
 
-	//go[1]->isColliding(go[0]) ? cout << "colliding" << endl : cout << "no collision" << endl;
+	go[1]->isColliding(go[0]) ? cout << "colliding" << endl : cout << "no collision" << endl;
 
 	if (go[1]->getSideToCollide(go[0], dT) == 0) {
 		cout << "TOP" << endl;

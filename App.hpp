@@ -30,6 +30,7 @@ private:
 public:
 	App(const WindowData& data);
 	~App();
+
 	void HandleEvent();
 	void Render();
 	void Update();
