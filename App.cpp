@@ -35,8 +35,17 @@ void App::HandleEvent() {
 		case sf::Event::Closed:
 			window.close();
 			break;
-		default:
-			Input::handleInputEvent(&event, window);
+		case sf::Event::KeyPressed:
+			if (Input::handleKeyboardEvent(&event, window, sf::Keyboard::Escape)) {
+				window.close();
+			}
+			break;
+		case sf::Event::MouseButtonPressed:
+			if (Input::handleMouseEvent(&event, window, sf::Mouse::Right)) {
+				std::cout << "UwU Papagnan UwU" << std::endl;
+			}
+			break;
+		default: 
 			break;
 		}
 	}
@@ -45,7 +54,6 @@ void App::HandleEvent() {
 void App::Render() {
 
 	int i = 5;
-	int bullet = 0;
 	go.clear();
 	go.push_back(new GameObject(50, 50, 1000, 100));
 	go.push_back(new GameObject(1350, 500, 100, 100));
@@ -58,8 +66,11 @@ void App::Render() {
 }
 
 void App::Update() {
-	Input::getMousePositionX(window);
-	Input::getMousePositionY(window);
+
+	sf::Clock clock;
+	
+
+	Input::GetInstance()->getMousePosition(window);
 	window.clear();
 
 	go[1]->move(dT);
