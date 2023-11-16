@@ -6,7 +6,7 @@ using namespace std;
 int main()
 {
     WindowData data = {
-		"Brick my ass",
+		"Casse Pas des Briques",
         1920, 1080
 	};
     App app(data);

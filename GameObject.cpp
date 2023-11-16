@@ -14,15 +14,19 @@ GameObject::GameObject(int x, int y, int w, int h) {
 	//pShape->setScale(size.x / size.x, size.y / size.y);
 
 	setPosition(Vector2f(x, y));
+	toDestroy = false;
 }
 
 GameObject::GameObject(int x, int y, int radius, float dot) {
 	pShape = new CircleShape(radius, dot);
 	pShape->setOrigin(radius, radius);
 	setPosition(Vector2f(x, y));
+	toDestroy = false;
 }
 
-GameObject::~GameObject() {}
+GameObject::~GameObject() {
+	
+}
 
 #pragma endregion Constructor
 
@@ -45,7 +49,7 @@ void GameObject::move(float dT)
 {
 	//addPosition(direction.x, direction.y, 125.f, dT);
 
-	Vector2f newPos = position + direction * dT * 125.f;
+	Vector2f newPos = position + direction * dT * 330.f;
 	setPosition(newPos);
 	//cout << position.x << ", " << position.y << endl;
 }
@@ -107,13 +111,6 @@ void GameObject::addRotation(float _angle, float speed, float dT, float fAnchorX
 	setRotation(angle, fAnchorX, fAnchorY);
 }
 
-void GameObject::addCanonRotation(Vector2i pos) {
-	if (pos.y < position.y) {
-		float mouseAngle = -atan2(pos.x - position.x, pos.y - position.y) * 180 / 3.14159;
-		pShape->setRotation(mouseAngle);
-	}
-}
-
 #pragma endregion Rotation
 
 #pragma region Origin
@@ -161,7 +158,7 @@ void GameObject::updateDirection(int side) {
 		setDirection(sf::Vector2f(direction.x, -std::abs(direction.y)));
 		break;
 	case 1: // Bottom collision
-		setDirection(sf::Vector2f(direction.x, std::abs(direction.y)));
+		setDirection(sf::Vector2f(-direction.x, std::abs(direction.y)));
 		break;
 	case 2: // Left collision
 		setDirection(sf::Vector2f(-std::abs(direction.x), direction.y));

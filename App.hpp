@@ -1,5 +1,10 @@
 #pragma once
 #include "GameObject.hpp"
+#include "InputManager.hpp"
+#include "Bullet.hpp"
+#include "Brick.hpp"
+#include "Border.hpp"
+#include "Canon.hpp"
 #include <vector>
 
 struct WindowData {
@@ -27,6 +32,7 @@ private:
 	sf::Clock clock;
 	float dT = 0.f;
 	std::vector<GameObject*> go;
+	Canon* canon;
 	
 public:
 	App(const WindowData& data);

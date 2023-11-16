@@ -3,6 +3,8 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
+
+
 class GameObject {
 private:
 	sf::Vector2f position;
@@ -20,6 +22,7 @@ private:
 	sf::Vector2f direction;
 
 public:
+	bool toDestroy;
 
 	void setDirection(const sf::Vector2f& _direction);
 	void move(float dT);
@@ -58,7 +61,6 @@ public:
 	void setRotation(float _angle, float fAnchorX = 1/2.f, float fAnchorY = 1 / 2.f);
 	void addRotation(float _angle, float speed, float dT, float fAnchorX = 1 / 2.f, float fAnchorY = 1 / 2.f);
 	float getRotation() { return pShape->getRotation(); }
-	void addCanonRotation(sf::Vector2i pos);
 
 #pragma endregion Rotation
 
