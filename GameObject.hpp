@@ -24,10 +24,6 @@ private:
 public:
 	bool toDestroy;
 
-	void setDirection(const sf::Vector2f& _direction);
-	virtual void move(float dT);
-	void multiplyDirection(float _factorX, float _factorY);
-
 #pragma region Constructor
 
 	GameObject(int x, int y, int w, int h);//rectangle
@@ -48,6 +44,9 @@ public:
 	void addPosition(int x, int y, float speed, float dT);
 	GameObject* setVelocity(sf::Vector2f _velocity);
 	void update(float dT);
+	void move(float dT);
+	void setDirection(const sf::Vector2f& _direction);
+	void multiplyDirection(float _factorX, float _factorY);
 
 #pragma endregion Position
 

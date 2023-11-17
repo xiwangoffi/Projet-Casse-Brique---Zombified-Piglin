@@ -88,6 +88,10 @@ void App::Update() {
 		bullet[i]->move(dT);
 		bullet[i]->draw(window);
 
+		for (int j = 0; j < go.size(); ++j) {
+			bullet[i]->getSideToCollide(go[j]);
+		}
+
 		if (bullet[i]->isOutOfScreen(window.getSize().x, window.getSize().y)) {
 			delete bullet[i];
 			bullet.erase(bullet.begin() + i);
