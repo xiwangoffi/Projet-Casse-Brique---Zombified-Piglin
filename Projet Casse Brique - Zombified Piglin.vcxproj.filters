@@ -76,6 +76,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="level1.txt" />
+    <Text Include=".txt" />
   </ItemGroup>
 </Project>

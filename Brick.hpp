@@ -7,11 +7,11 @@ private:
 
 public:
 
-	Brick(sf::Vector2f _position, int _life);
+	Brick(int x, int y, int _life);
 	~Brick();
 
-	Brick* setHp(int _hp);
-	bool isBroken();
+	void takeDamage(int _damage);
+	int getHp() { return life; }
 
 	void Update(float dT);
 };

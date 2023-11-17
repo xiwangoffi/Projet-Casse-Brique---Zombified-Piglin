@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <SFML/Audio.hpp>
 
 struct WindowData {
 	const char* title;
@@ -36,9 +37,16 @@ private:
 	float dT = 0.f;
 	std::vector<GameObject*> go;
 	std::vector<Bullet*> bullet;
+	std::vector<Brick*> brick;
 	Canon* canon;
-	bool isShoot = false;
-	const char* path = "Ressources/Levels/level1.txt";
+	bool win = false;
+	const char* path;
+	sf::SoundBuffer damageSoundBuffer;
+	sf::SoundBuffer deleteSoundBuffer;
+	sf::SoundBuffer winSoundBuffer;
+	sf::Sound sDamage;
+	sf::Sound sDelete;
+	sf::Sound sWin;
 
 	
 public:

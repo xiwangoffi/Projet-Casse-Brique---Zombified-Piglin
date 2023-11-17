@@ -23,6 +23,7 @@ private:
 
 public:
 	bool toDestroy;
+	bool canCollide;
 
 #pragma region Constructor
 
@@ -53,6 +54,7 @@ public:
 #pragma region Color
 
 	void setFillColor(sf::Color _color);
+	void setTexture(const char* path);
 	void setOutlineColor(sf::Color _outlineColor);
 
 #pragma endregion Color

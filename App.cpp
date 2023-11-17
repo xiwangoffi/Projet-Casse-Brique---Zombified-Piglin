@@ -52,12 +52,20 @@ void App::Render() {
 	window.getSize().x;
 	window.getSize().y;
 	go.clear();
+	brick.clear();
+	bullet.clear();
+
+	sf::Texture background;
+	background.loadFromFile("Ressources/Images/nether.png");
+	sf::Sprite backgroundSprite(background);
+	window.draw(backgroundSprite);
+	
+	canon = new Canon(window.getSize().x / 2, window.getSize().y - 100, 25, 70);//Canon
 	go.push_back(new Border(0, 0, 1, window.getSize().y));//left
 	go.push_back(new Border(0, 0, window.getSize().x,1));//top
 	go.push_back(new Border(window.getSize().x-1, 0, 1, window.getSize().y));//right
-	go.push_back(new Border(0, window.getSize().y-1, window.getSize().x,1));//bottom
 	
-	std::string text = LevelReader::SheetReader(path);
+	std::string text = LevelReader::SheetReader("Ressources/Levels/level1.txt");
 	int line = 0;
 	int column = 80;
 
@@ -71,7 +79,7 @@ void App::Render() {
 			line = 0;
 		}
 		else if (text[i] == '5') {
-			go.push_back(new GameObject(line, column, 240, 80));
+			brick.push_back(new Brick(line, column, 5));
 			line += 140;
 		}
 		else if (text[i] == '*') {
@@ -79,48 +87,115 @@ void App::Render() {
 		}
 	}
 	
-	canon = new Canon(window.getSize().x / 2, window.getSize().y - 300, 25, 70);//Canon
 
-	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
-	go[1]->setDirection(sf::Vector2f(-50, -70));
+	for(int i = 0; i < brick.size(); ++i) {
+		if (brick[i]->getHp() == 5) {
+			brick[i]->setTexture("Ressources/Images/Tile_5hp.png");
+		}
+	}
 
+	if (!damageSoundBuffer.loadFromFile("Ressources/Sounds/damage.wav")) {
+		std::cerr << "Erreur lors du chargement de damage.wav" << std::endl;
+	}
+
+	if (!deleteSoundBuffer.loadFromFile("Ressources/Sounds/delete.wav")) {
+		std::cerr << "Erreur lors du chargement de delete.wav" << std::endl;
+	}
+
+	if (!winSoundBuffer.loadFromFile("Ressources/Sounds/win.wav")) {
+		std::cerr << "Erreur lors du chargement de win.wav" << std::endl;
+	}
+
+
+	sDamage.setBuffer(damageSoundBuffer);
+	sDelete.setBuffer(deleteSoundBuffer);
+	sWin.setBuffer(winSoundBuffer);
+	sDamage.setVolume(100.f);
+	sDelete.setVolume(100.f);
+	sWin.setVolume(100.f);
 }
 
 void App::Update() {
-
-	sf::Clock clock;
+	if(win == false) {
+		bool brickDestroyed = false;
+		sf::Clock clock;
 	
-	sf::Vector2i mouseAngle = sf::Mouse::getPosition(window);
-	Input::GetInstance()->getMousePosition(window);
-	window.clear();
+		sf::Vector2i mouseAngle = sf::Mouse::getPosition(window);
+		Input::GetInstance()->getMousePosition(window);
+		window.clear();
 
-	//go[1]->move(dT);
+		canon->addCanonRotation(mouseAngle);
 
-	canon->addCanonRotation(mouseAngle);
+		for (int i = 0; i < go.size(); i++) {
+			go[i]->draw(window);
+		}
+		for(int i = 0; i < brick.size(); ++i) {
+			brick[i]->draw(window);
+		}
+		canon->draw(window);
 
-	for (int i = 0; i < go.size(); i++) {
-		go[i]->draw(window);
-	}
-	canon->draw(window);
+		for (int i = 0; i < bullet.size(); ++i) {
+			bullet[i]->move(dT);
+			bullet[i]->draw(window);
+			bullet[i]->canCollide = true;
 
-	for (int i = 0; i < bullet.size(); ++i) {
-		bullet[i]->move(dT);
-		bullet[i]->draw(window);
+			for (int j = 0; j < go.size(); ++j) {
+				bullet[i]->getSideToCollide(go[j]);
+			}
+			for (int w = brick.size() - 1; w >= 0; --w) {
+				int collisionSide = bullet[i]->getSideToCollide(brick[w]);
+				if (collisionSide != -1 && bullet[i]->canCollide == true) {
+					bullet[i]->canCollide = false;
+					brick[w]->takeDamage(1);
+					sDamage.play();
 
-		for (int j = 0; j < go.size(); ++j) {
-			bullet[i]->getSideToCollide(go[j]);
+					if (brick[w]->getHp() == 0) {
+						delete brick[w];
+						brick.erase(brick.begin() + w);
+						brickDestroyed = true;
+						sDelete.play();
+					}
+
+					if (brickDestroyed) {
+						break;
+					}
+
+					if (brick[w]->getHp() == 4) {
+						brick[w]->setTexture("Ressources/Images/Tile_4hp.png");
+					}
+					if (brick[w]->getHp() == 3) {
+						brick[w]->setTexture("Ressources/Images/Tile_3hp.png");
+					}
+					if (brick[w]->getHp() == 2) {
+						brick[w]->setTexture("Ressources/Images/Tile_2hp.png");
+					}
+					if (brick[w]->getHp() == 1) {
+						brick[w]->setTexture("Ressources/Images/Tile_1hp.png");
+					}
+
+					break;
+				}
+			}
+
+ 
+			if (bullet[i]->isOutOfScreen(window.getSize().x, window.getSize().y)) {
+				delete bullet[i];
+				bullet.erase(bullet.begin() + i);
+				--i;
+			}
 		}
 
-		if (bullet[i]->isOutOfScreen(window.getSize().x, window.getSize().y)) {
-			delete bullet[i];
-			bullet.erase(bullet.begin() + i);
-			--i;
+		if(brick.size() == 0) {
+			win = true;
 		}
-	}
 
 	
-	window.display();
+ 		window.display();
 
-	dT = clock.restart().asSeconds();
+		dT = clock.restart().asSeconds();
+	} else {
+		std::cout << "YOU WIN" << std::endl;
+		sWin.play();
+	}
 }
 

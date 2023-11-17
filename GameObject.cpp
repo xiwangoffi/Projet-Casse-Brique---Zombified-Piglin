@@ -81,6 +81,12 @@ void GameObject::setFillColor(Color _color) {
 	pShape->setFillColor(color);
 }
 
+void GameObject::setTexture(const char* path) {
+	sf::Texture texture;
+	texture.loadFromFile(path);
+	pShape->setTexture(&texture);
+}
+
 void GameObject::setOutlineColor(Color _outlineColor) {
 	outlineColor = _outlineColor;
 	pShape->setOutlineColor(outlineColor);
