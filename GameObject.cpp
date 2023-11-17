@@ -20,7 +20,6 @@ GameObject::GameObject(int x, int y, int radius, float dot) {
 	pShape = new CircleShape(radius, dot);
 	pShape->setOrigin(radius, radius);
 	setPosition(Vector2f(x, y));
-	toDestroy = false;
 }
 
 GameObject::~GameObject() {
@@ -171,40 +170,47 @@ void GameObject::resolveCollision(const GameObject* entity, int side) {
 	}
 }
 
-
 int GameObject::getSideToCollide(const GameObject* entity) {
-	float ball_bottom = position.y + size.y;
-	float brick_bottom = entity->position.y + entity->size.y;
-	float ball_right = position.x + size.x;
-	float brick_right = entity->position.x + entity->size.x;
-
-	float y_overlap = std::min(ball_bottom, brick_bottom) - std::max(position.y, entity->position.y);
-	float x_overlap = std::min(ball_right, brick_right) - std::max(position.x, entity->position.x);
-
-	float minOverlapThreshold = 5.0f;
-
-	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold && isColliding(entity)) {
-		if (position.x < entity->position.x) {
-			// Left collision
-			resolveCollision(entity, 2); 
-			return 2;
-		}
-		else {
-			// Right collision
-			resolveCollision(entity, 3);
-			return 3;
-		}
+	sf::CircleShape* ball = dynamic_cast<sf::CircleShape*>(pShape);
+	if (!ball) {
+		// Handle the case where the shape is not a circle
+		return -1;
 	}
-	else if (x_overlap > minOverlapThreshold && isColliding(entity)) {
-		if (position.y < entity->position.y) {
-			// Top collision
-			resolveCollision(entity, 0);
-			return 0;
+
+	sf::Vector2f rectCenter(entity->position.x + 0.5f * entity->size.x, entity->position.y + 0.5f * entity->size.y);
+
+	float deltaX = position.x - std::max(entity->position.x, std::min(position.x, entity->position.x + entity->size.x));
+	float deltaY = position.y - std::max(entity->position.y, std::min(position.y, entity->position.y + entity->size.y));
+
+	float distanceSquared = deltaX * deltaX + deltaY * deltaY;
+
+	if (distanceSquared <= (ball->getRadius() * ball->getRadius())) {
+		// Collision detected
+
+		float overlapX = std::max(0.0f, std::min(position.x + ball->getRadius(), entity->position.x + entity->size.x) - std::max(position.x - ball->getRadius(), entity->position.x));
+		float overlapY = std::max(0.0f, std::min(position.y + ball->getRadius(), entity->position.y + entity->size.y) - std::max(position.y - ball->getRadius(), entity->position.y));
+
+		if (overlapX > overlapY) {
+			// Collision on top or bottom
+			if (position.y < entity->position.y + entity->size.y) {
+				resolveCollision(entity, 0); // Top collision
+				return 0;
+			}
+			else {
+				resolveCollision(entity, 1); // Bottom collision
+				return 1;
+			}
 		}
 		else {
-			// Bottom collision
-			resolveCollision(entity, 1);
-			return 1;
+			// Collision on left or right
+			if (position.x < entity->position.x) {
+				resolveCollision(entity, 2); // Left collision
+				return 2;
+			}
+			else {
+				resolveCollision(entity, 3); // Right collision
+				return 3;
+			}
 		}
 	}
 
