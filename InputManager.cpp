@@ -2,8 +2,7 @@
 
 Input* Input::Instance = nullptr;
 
-Input::Input() {
-    
+Input::Input() {   
 }
 
 Input::~Input() {

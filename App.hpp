@@ -5,7 +5,10 @@
 #include "Brick.hpp"
 #include "Border.hpp"
 #include "Canon.hpp"
+#include "LevelReader.hpp"
 #include <vector>
+#include <iostream>
+#include <fstream>
 
 struct WindowData {
 	const char* title;
@@ -35,6 +38,8 @@ private:
 	std::vector<Bullet*> bullet;
 	Canon* canon;
 	bool isShoot = false;
+	const char* path = "Ressources/Levels/level1.txt";
+
 	
 public:
 	App(const WindowData& data);

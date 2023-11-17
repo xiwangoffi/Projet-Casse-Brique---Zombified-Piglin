@@ -15,7 +15,7 @@ Clock::~Clock()
 
 App::App(const WindowData& data)
 {	
-	window.create(sf::VideoMode(data.width, data.height), data.title, sf::Style::Default);
+	window.create(sf::VideoMode(data.width, data.height), data.title, sf::Style::Fullscreen);
 }
 
 App::~App()
@@ -51,16 +51,35 @@ void App::HandleEvent() {
 void App::Render() {
 	window.getSize().x;
 	window.getSize().y;
-	int i = 5;
 	go.clear();
-	go.push_back(new GameObject(50, 50, 1000, 100)); // Brick de référence
-	go.push_back(new GameObject(500, 500, 50, 50)); // testeur
-	go.push_back(new Border(0, 0, 1, window.getSize().y));
-	go.push_back(new Border(0, 0, window.getSize().x,1));
-	go.push_back(new Border(window.getSize().x-1, 0, 1, window.getSize().y));
-	go.push_back(new Border(0, window.getSize().y+60, window.getSize().x,1));
+	go.push_back(new Border(0, 0, 1, window.getSize().y));//left
+	go.push_back(new Border(0, 0, window.getSize().x,1));//top
+	go.push_back(new Border(window.getSize().x-1, 0, 1, window.getSize().y));//right
+	go.push_back(new Border(0, window.getSize().y-1, window.getSize().x,1));//bottom
+	
+	std::string text = LevelReader::SheetReader(path);
+	int line = 0;
+	int column = 80;
 
-	canon = new Canon(window.getSize().x / 2, window.getSize().y - 300, 25, 70);
+	for (int i = 0; i < text.length(); i++)
+	{
+		if (text[i] == ' ') {
+			line += 140;
+		}
+		else if (text[i] == '/') {
+			column += 100;
+			line = 0;
+		}
+		else if (text[i] == '5') {
+			go.push_back(new GameObject(line, column, 240, 80));
+			line += 140;
+		}
+		else if (text[i] == '*') {
+			break;
+		}
+	}
+	
+	canon = new Canon(window.getSize().x / 2, window.getSize().y - 300, 25, 70);//Canon
 
 	go[0]->setFillColor(sf::Color(255, 100, 0, 255));
 	go[1]->setDirection(sf::Vector2f(-50, -70));
@@ -75,7 +94,7 @@ void App::Update() {
 	Input::GetInstance()->getMousePosition(window);
 	window.clear();
 
-	go[1]->move(dT);
+	//go[1]->move(dT);
 
 	canon->addCanonRotation(mouseAngle);
 

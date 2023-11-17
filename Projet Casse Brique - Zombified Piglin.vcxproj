@@ -146,6 +146,7 @@
     <ClCompile Include="InputManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mathematics.cpp" />
+    <ClCompile Include="LevelReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.hpp" />
@@ -155,7 +156,11 @@
     <ClInclude Include="Canon.hpp" />
     <ClInclude Include="GameObject.hpp" />
     <ClInclude Include="InputManager.hpp" />
+    <ClInclude Include="LevelReader.hpp" />
     <ClInclude Include="Mathematics.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="level1.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
