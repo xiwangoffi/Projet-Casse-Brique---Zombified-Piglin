@@ -25,7 +25,7 @@ public:
 	bool toDestroy;
 
 	void setDirection(const sf::Vector2f& _direction);
-	void move(float dT);
+	virtual void move(float dT);
 	void multiplyDirection(float _factorX, float _factorY);
 
 #pragma region Constructor
@@ -43,6 +43,8 @@ public:
 
 	void setPosition(sf::Vector2f _position);
 	sf::Vector2f getPosition() { return pShape->getPosition(); }
+	sf::Vector2f getPosition() const { return sf::Vector2f(position.x, position.y); }
+	sf::Vector2f getSize() const { return sf::Vector2f(size.x, size.y); }
 	void addPosition(int x, int y, float speed, float dT);
 	GameObject* setVelocity(sf::Vector2f _velocity);
 	void update(float dT);
@@ -75,8 +77,8 @@ public:
 
 	bool isColliding(const GameObject* entity);
 	void updateDirection(int side);
-	void resolveCollision(const GameObject* entity, int side, float& dT);
-	int getSideToCollide(const GameObject* entity, float dT);
+	void resolveCollision(const GameObject* entity, int side);
+	int getSideToCollide(const GameObject* entity);
 
 #pragma endregion Collision
 

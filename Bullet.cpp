@@ -1,24 +1,14 @@
 #include "Bullet.hpp"
 #include "Mathematics.hpp"
 
-Bullet::Bullet(int x, int y, sf::Vector2f _direction, float _speed) : GameObject(x, y, 15, 100.f) {
-	setDirection(_direction)->setSpeed(_speed);
+Bullet::Bullet(int x, int y, sf::Vector2f _direction) : GameObject(x, y, 15, 100.f) {
+	dir = _direction;
+	setDirection(dir);
 }
 
 Bullet::~Bullet() {}
 
-Bullet* Bullet::setDirection(sf::Vector2f _dir) {
-	dir = _dir;
-	IncreaseVelocity();
-	return this;
-}
-
-Bullet* Bullet::setSpeed(float _speed) {
-	speed = _speed;
-	IncreaseVelocity();
-	return this;
-}
-
-void Bullet::IncreaseVelocity() {
-	setVelocity(dir * speed);
+bool Bullet::isOutOfScreen(float screenWidth, float screenHeight) {
+	sf::Vector2f position = getPosition();
+	return (position.x < 0 || position.x > screenWidth || position.y < 0 || position.y > screenHeight);
 }

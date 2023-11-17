@@ -12,7 +12,6 @@ namespace Mathematics {
 
     void Normalize(sf::Vector2f* vec) {
         float magnitude = Magnitude(*vec);
-        //std::cout << "magnitude: " << magnitude << std::endl;
             if (magnitude == 0) return;
         *vec /= magnitude;
     }
@@ -20,4 +19,8 @@ namespace Mathematics {
 	float Angle(sf::Vector2f vec) {
 		return std::atan2(vec.y, vec.x) * (180.0 / M_PI);
 	}
+
+    sf::Vector2f AngleToVector(float angle) {
+        return sf::Vector2f(std::cos(angle), std::sin(angle));
+    }
 }

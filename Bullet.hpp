@@ -7,12 +7,8 @@ private:
 	float speed;
 
 public:
-	Bullet(int x, int y, sf::Vector2f _direction, float _speed = 350);
+	Bullet(int x, int y, sf::Vector2f _direction);
 	~Bullet();
 
-	Bullet* setDirection(sf::Vector2f _direction);
-	Bullet* setSpeed(float _speed);
-	void IncreaseVelocity();
-
-	
+	bool isOutOfScreen(float screenWidth, float screenHeight);
 };

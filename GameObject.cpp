@@ -11,7 +11,6 @@ GameObject::GameObject(int x, int y, int w, int h) {
 	size = Vector2f(w, h);
 	oHitBox.setSize(size);
 	oHitBox.setFillColor(sf::Color::Green);
-	//pShape->setScale(size.x / size.x, size.y / size.y);
 
 	setPosition(Vector2f(x, y));
 	toDestroy = false;
@@ -42,16 +41,13 @@ void GameObject::addPosition(int x, int y, float speed, float dT) {
 	Vector2f pos = pShape->getPosition();
 	pos += Vector2f(x, y) * speed * dT;
 	setPosition(pos);
-	//cout << position.x << ", " << position.y << endl;
 }
 
 void GameObject::move(float dT) 
 {
-	//addPosition(direction.x, direction.y, 125.f, dT);
 
 	Vector2f newPos = position + direction * dT * 330.f;
 	setPosition(newPos);
-	//cout << position.x << ", " << position.y << endl;
 }
 
 
@@ -59,15 +55,12 @@ void GameObject::setDirection(const sf::Vector2f& _direction)
 {
 	direction = _direction;
 	Mathematics::Normalize(&direction);
-	//cout << "direction x: " << direction.x << " direction.y: " << direction.y << endl;
 }
 
 void GameObject::multiplyDirection(float _factorX, float _factorY)
 {
 	direction.x *= _factorX;
 	direction.y *= _factorY;
-	//cout << "direction x: " << direction.x << " direction y: " << direction.y << endl;
-	//setDirection(sf::Vector2f(direction.x, direction.y));
 }
 
 GameObject* GameObject::setVelocity(Vector2f _velocity) {
@@ -130,22 +123,10 @@ void GameObject::setOriginCenter() {
 
 #pragma endregion Origin
 
-void GameObject::setOutlineThickness(float _thickness) {
-	thickness = _thickness;
-	pShape->setOutlineThickness(thickness);
-}
-
 #pragma region Collision
 
 bool GameObject::isColliding(const GameObject* entity) 
 {
-	/*
-	cout << endl;
-	cout << "t1: " << entity->position.x << ", " << position.x << ", " << size.x << endl;
-	cout << "t2: " << entity->position.x << ", " << entity->size.x << ", " << position.x << endl;
-	cout << "t3: " << entity->position.y << ", " << position.y << ", " << size.y << endl;
-	cout << "t4: " << entity->position.y << ", " << entity->size.y << ", " << position.y << endl;*/
-
 	return !((entity->position.x >= position.x + size.x) // trop à droite
 		|| (entity->position.x + entity->size.x <= position.x) // trop à gauche
 		|| (entity->position.y >= position.y + size.y) // trop en bas
@@ -170,12 +151,11 @@ void GameObject::updateDirection(int side) {
 }
 
 
-void GameObject::resolveCollision(const GameObject* entity, int side, float& dT) {
+void GameObject::resolveCollision(const GameObject* entity, int side) {
 	float overlap = 5.0f;
 
 	switch (side) {
 	case 0: // Top collision
-		// multiplyDirection(0.f, -1.f);
 		updateDirection(side);
 		break;
 	case 1: // Bottom collision
@@ -183,18 +163,16 @@ void GameObject::resolveCollision(const GameObject* entity, int side, float& dT)
 		updateDirection(side);
 		break;
 	case 2: // Left collision
-		// multiplyDirection(-1.f, 0.f);
 		updateDirection(side);
 		break;
 	case 3: // Right collision
-		// multiplyDirection(-1.f, 0.f);
 		updateDirection(side);
 		break;
 	}
 }
 
 
-int GameObject::getSideToCollide(const GameObject* entity, float dT) {
+int GameObject::getSideToCollide(const GameObject* entity) {
 	float ball_bottom = position.y + size.y;
 	float brick_bottom = entity->position.y + entity->size.y;
 	float ball_right = position.x + size.x;
@@ -208,24 +186,24 @@ int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 	if (y_overlap > x_overlap && y_overlap > minOverlapThreshold && isColliding(entity)) {
 		if (position.x < entity->position.x) {
 			// Left collision
-			resolveCollision(entity, 2, dT); 
+			resolveCollision(entity, 2); 
 			return 2;
 		}
 		else {
 			// Right collision
-			resolveCollision(entity, 3, dT);
+			resolveCollision(entity, 3);
 			return 3;
 		}
 	}
 	else if (x_overlap > minOverlapThreshold && isColliding(entity)) {
 		if (position.y < entity->position.y) {
 			// Top collision
-			resolveCollision(entity, 0, dT);
+			resolveCollision(entity, 0);
 			return 0;
 		}
 		else {
 			// Bottom collision
-			resolveCollision(entity, 1, dT);
+			resolveCollision(entity, 1);
 			return 1;
 		}
 	}
@@ -235,6 +213,10 @@ int GameObject::getSideToCollide(const GameObject* entity, float dT) {
 
 #pragma endregion Collision
 
+void GameObject::setOutlineThickness(float _thickness) {
+	thickness = _thickness;
+	pShape->setOutlineThickness(thickness);
+}
 
 void GameObject::draw(sf::RenderWindow& window, bool bDrawHitBox)
 {

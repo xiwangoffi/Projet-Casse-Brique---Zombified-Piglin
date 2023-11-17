@@ -32,7 +32,9 @@ private:
 	sf::Clock clock;
 	float dT = 0.f;
 	std::vector<GameObject*> go;
+	std::vector<Bullet*> bullet;
 	Canon* canon;
+	bool isShoot = false;
 	
 public:
 	App(const WindowData& data);
