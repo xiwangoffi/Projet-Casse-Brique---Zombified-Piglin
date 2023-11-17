@@ -69,7 +69,7 @@ void App::Render() {
 	int line = 0;
 	int column = 80;
 
-	for (int i = 0; i < text.length(); i++)
+	for (int i = 0; i < text.length(); i++) // LevelReader
 	{
 		if (text[i] == ' ') {
 			line += 140;
@@ -89,11 +89,10 @@ void App::Render() {
 	
 
 	for(int i = 0; i < brick.size(); ++i) {
-		if (brick[i]->getHp() == 5) {
-			brick[i]->setTexture("Ressources/Images/Tile_5hp.png");
-		}
+		brick[i]->setFillColor(sf::Color::Blue);
 	}
 
+	//SoundBuffer init
 	if (!damageSoundBuffer.loadFromFile("Ressources/Sounds/damage.wav")) {
 		std::cerr << "Erreur lors du chargement de damage.wav" << std::endl;
 	}
@@ -106,7 +105,7 @@ void App::Render() {
 		std::cerr << "Erreur lors du chargement de win.wav" << std::endl;
 	}
 
-
+	//Sound init
 	sDamage.setBuffer(damageSoundBuffer);
 	sDelete.setBuffer(deleteSoundBuffer);
 	sWin.setBuffer(winSoundBuffer);
@@ -134,7 +133,7 @@ void App::Update() {
 		}
 		canon->draw(window);
 
-		for (int i = 0; i < bullet.size(); ++i) {
+		for (int i = 0; i < bullet.size(); ++i) { // Handle bullet (Collider, Delete)
 			bullet[i]->move(dT);
 			bullet[i]->draw(window);
 			bullet[i]->canCollide = true;
@@ -160,17 +159,17 @@ void App::Update() {
 						break;
 					}
 
-					if (brick[w]->getHp() == 4) {
-						brick[w]->setTexture("Ressources/Images/Tile_4hp.png");
+					if (brick[w]->getHp() == 4) { // Handle Brick texture on damage taken
+						brick[w]->setFillColor(sf::Color::Magenta);
 					}
 					if (brick[w]->getHp() == 3) {
-						brick[w]->setTexture("Ressources/Images/Tile_3hp.png");
+						brick[w]->setFillColor(sf::Color::Cyan);
 					}
 					if (brick[w]->getHp() == 2) {
-						brick[w]->setTexture("Ressources/Images/Tile_2hp.png");
+						brick[w]->setFillColor(sf::Color::Yellow);
 					}
 					if (brick[w]->getHp() == 1) {
-						brick[w]->setTexture("Ressources/Images/Tile_1hp.png");
+						brick[w]->setFillColor(sf::Color::Red);
 					}
 
 					break;
@@ -178,7 +177,7 @@ void App::Update() {
 			}
 
  
-			if (bullet[i]->isOutOfScreen(window.getSize().x, window.getSize().y)) {
+			if (bullet[i]->isOutOfScreen(window.getSize().x, window.getSize().y)) { // Delete bullet when out of window
 				delete bullet[i];
 				bullet.erase(bullet.begin() + i);
 				--i;

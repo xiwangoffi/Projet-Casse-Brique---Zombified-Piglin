@@ -6,7 +6,7 @@ using namespace std;
 
 #pragma region Constructor
 
-GameObject::GameObject(int x, int y, int w, int h) {
+GameObject::GameObject(int x, int y, int w, int h) { // RectangleShape constructor
 	pShape = new RectangleShape(Vector2f(w, h));
 	size = Vector2f(w, h);
 	oHitBox.setSize(size);
@@ -16,7 +16,7 @@ GameObject::GameObject(int x, int y, int w, int h) {
 	toDestroy = false;
 }
 
-GameObject::GameObject(int x, int y, int radius, float dot) {
+GameObject::GameObject(int x, int y, int radius, float dot) { // CircleShape constructor
 	pShape = new CircleShape(radius, dot);
 	pShape->setOrigin(radius, radius);
 	setPosition(Vector2f(x, y));
@@ -96,14 +96,14 @@ void GameObject::setOutlineColor(Color _outlineColor) {
 
 #pragma region Rotation
 
-void GameObject::setRotation(float _angle, float fAnchorX, float fAnchorY) {
+void GameObject::setRotation(float _angle, float fAnchorX, float fAnchorY) { // Static rotation
 	setOrigin(fAnchorX, fAnchorY);
 
 	angle = _angle;
 	pShape->setRotation(angle);
 }
 
-void GameObject::addRotation(float _angle, float speed, float dT, float fAnchorX, float fAnchorY) {
+void GameObject::addRotation(float _angle, float speed, float dT, float fAnchorX, float fAnchorY) { // Dynamic rotation
 	float angle = pShape->getRotation();
 	angle += _angle * speed * dT;
 	setRotation(angle, fAnchorX, fAnchorY);
@@ -130,7 +130,7 @@ void GameObject::setOriginCenter() {
 
 #pragma region Collision
 
-bool GameObject::isColliding(const GameObject* entity) 
+bool GameObject::isColliding(const GameObject* entity) // Detect Collider AABB
 {
 	return !((entity->position.x >= position.x + size.x) // trop à droite
 		|| (entity->position.x + entity->size.x <= position.x) // trop à gauche
@@ -138,7 +138,7 @@ bool GameObject::isColliding(const GameObject* entity)
 		|| (entity->position.y + entity->size.y <= position.y)); // trop en haut
 }
 
-void GameObject::updateDirection(int side) {
+void GameObject::updateDirection(int side) { // Adjust directions when colliding
 	switch (side) {
 	case 0: // Top collision
 		setDirection(sf::Vector2f(direction.x, -std::abs(direction.y)));
@@ -156,8 +156,7 @@ void GameObject::updateDirection(int side) {
 }
 
 
-void GameObject::resolveCollision(const GameObject* entity, int side) {
-	float overlap = 5.0f;
+void GameObject::resolveCollision(const GameObject* entity, int side) { // Function to handle good collider side
 
 	switch (side) {
 	case 0: // Top collision
@@ -176,10 +175,10 @@ void GameObject::resolveCollision(const GameObject* entity, int side) {
 	}
 }
 
-int GameObject::getSideToCollide(const GameObject* entity) {
+int GameObject::getSideToCollide(const GameObject* entity) { // Detect collision between CircleShape -> RectangleShape
 	sf::CircleShape* ball = dynamic_cast<sf::CircleShape*>(pShape);
 	if (!ball) {
-		// Handle the case where the shape is not a circle
+		// Debug in case we send the wrong Shape to the collider
 		return -1;
 	}
 
